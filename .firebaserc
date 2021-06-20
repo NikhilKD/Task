@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "frosh-hackathon",
+    "staging": "frosh-c4694"
+  }
+}

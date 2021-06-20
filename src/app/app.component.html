@@ -1,0 +1,129 @@
+<div class="content">
+<mat-drawer-container class="example-container" [hasBackdrop]="hasBackdrop.value">
+    <mat-drawer #drawer mode="over">
+        <div class="main">
+            <h5>Thank You so much for taking the time!</h5>
+            <p>Please provide the below details</p>
+            <br>
+            <form  [formGroup]="form">
+            <div class="name">First Name</div>
+            <mat-card>
+              <div class="form-group">
+                <input type="text" formControlName="first" class="form-control" placeholder="first" >
+                <span class="error" *ngIf="first?.invalid && first?.touched">*Email is not valid</span>
+              </div>
+            </mat-card>
+            <div class="name">Last Name</div>
+            <mat-card>
+              <div class="form-group">
+                <input type="text" formControlName="last" class="form-control" placeholder="last" >
+                <span class="error" *ngIf="last?.invalid && last?.touched">*Email is not valid</span>
+              </div>
+            </mat-card>
+            <div class="name" >Address</div>
+            <mat-card style="height:70px">
+              <div class="form-group">
+                <input type="text" formControlName="address" class="form-control" placeholder="address" >
+                <span class="error" *ngIf="address?.invalid && address?.touched">*Email is not valid</span>
+              </div>
+            </mat-card>
+            <div class="name">Country</div>
+            <mat-card>
+              <div class="form-group">
+                <input type="text" formControlName="country" class="form-control" placeholder="country" >
+                <span class="error" *ngIf="country?.invalid && country?.touched">*Email is not valid</span>
+              </div>
+            </mat-card>
+            <div class="name">Email</div>
+            <mat-card>
+              <div class="form-group">
+              <input type="email" formControlName="email" class="form-control" placeholder="Email" >
+              <span class="error" *ngIf="email?.invalid && email?.touched">*Email is not valid</span>
+            </div>
+            </mat-card>
+            <div class="name">Phone No</div>
+            <mat-card>
+              <div class="form-group">
+                <input type="text" formControlName="phone" class="form-control" placeholder="Phone" >
+                <div *ngIf="phone?.touched && phone?.invalid">  
+                  <div class="error" *ngIf="phone?.errors?.required">*Mobile Number is required.</div>  
+                  <div class="error" *ngIf="phone?.errors?.pattern">*Please, Enter 10 digit Mobile Number.</div>  
+              </div>  
+              </div>
+            </mat-card>
+            <button mat-raised-button [disabled]="!form.valid" color="accent">submit</button>
+          </form>
+        </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <mat-form-field>
+        <mat-card><h6>Hi Reader,</h6>
+            <p>Here's your News</p>
+        </mat-card>
+
+        <mat-select style="margin-top:15%;display:none" #mode value="side">
+          <mat-option value="side">Side</mat-option>
+          <mat-option value="over">Over</mat-option>
+          <mat-option value="push">Push</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field style="margin-top:15%;display:none">
+        <mat-label>Has backdrop</mat-label>
+        <mat-select #hasBackdrop>
+          <mat-option>Unset</mat-option>
+          <mat-option [value]="true">True</mat-option>
+          <mat-option [value]="false">False</mat-option>
+        </mat-select>
+        
+      </mat-form-field>
+
+      <mat-card><h6>Have a Feedback?</h6>
+        <button mat-raised-button color="accent" (click)="drawer.toggle()">We are Listening</button>
+    </mat-card>
+    <mat-card style="margin-top:15%;" class="toggle"><h6>View Toggle</h6>
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+          <mat-button-toggle (click)="vertical()" [style.background-color]="ver?'rgb(6, 168, 60)':'#ffff'">Ver</mat-button-toggle>
+          <mat-button-toggle (click)="horizontal()" [style.background-color]="hor?'rgb(6, 168, 60)':'#ffff'">Hor</mat-button-toggle>
+        </mat-button-toggle-group>
+        
+  </mat-card>
+    </mat-drawer-content>
+  </mat-drawer-container>
+<div class="news">
+  <div  style="padding-left:80%" class="headlines" [style.display]="ver?'flex':'none'" >
+  <div *ngFor="let transaction of data | paginate: { itemsPerPage: 3, currentPage: page,totalItems:totalLength };let i=index" class="news-container">
+  <mat-card class="stats" style="width:500px" >
+    <h6 class="title" style="width:450px">{{transaction.title}}</h6>
+    <p class="summary" style="width:450px">{{transaction.summary}}</p>
+    <p class="summary" style="font-weight: bold;width:450px">{{transaction.published}}</p>
+  </mat-card>
+  <button mat-fab color="primary" (click)="delete(i)"class="delete" aria-label="Example icon button with a delete icon">
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
+</div>
+<div  class="horizontal" [style.display]="hor?'flex':'none'">
+  <div class="container">
+    <div class="row" >
+      <div class="col" *ngFor="let transaction of data | paginate: { itemsPerPage: 6, currentPage: page,totalItems:totalLength };let i=index">
+        <mat-card class=" vertical-stats" style="width:300px" >
+          <div class="vertical-content">
+          <h6 class="title">{{transaction.title}}</h6>
+          <p class="summary">{{transaction.summary}}</p>
+          <p class="summary" style="font-weight: bold;">{{transaction.published}}</p>
+        </div>
+          <button mat-fab color="primary" (click)="delete(i)"class="delete" aria-label="Example icon button with a delete icon">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let transaction of data | paginate: { itemsPerPage: 4, currentPage: page,totalItems:totalLength };let i=index" class="news-container">
+
+</div>
+</div>
+</div>
+</div>
+<pagination-controls  (pageChange)="page = $event"></pagination-controls>
+
